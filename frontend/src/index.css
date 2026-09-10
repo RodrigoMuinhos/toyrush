@@ -1145,3 +1145,5 @@ button:focus-visible { outline: 3px solid white; outline-offset: -4px; }
 @keyframes attack-boom { 0% { opacity: 0; transform: scale(.25) rotate(-14deg); } 12% { opacity: 1; transform: scale(1.12) rotate(5deg); } 22%, 75% { opacity: 1; transform: scale(1) rotate(-4deg); } 100% { opacity: 0; transform: scale(1.1) translateY(-20px); } }
 
 .controller-status { display: flex; flex-shrink: 0; justify-content: space-around; padding: 3px 8px; background: #10234a; color: #a8e8ff; font: 600 clamp(8px, 1.2vmin, 13px) Fredoka, sans-serif; }
+
+.controller-discovery { position: absolute; bottom: 0; left: 0; right: 0; min-height: 42px; display: flex; justify-content: space-around; align-items: center; gap: 10px; padding: 6px 12px; color: #d0f5ff; background: #10234a; font: 600 clamp(10px, 1.3vw, 16px) Fredoka, sans-serif; }

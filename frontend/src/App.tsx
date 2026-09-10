@@ -2247,7 +2247,7 @@ function LaunchCountdown({ onComplete }: { onComplete: () => void }) {
 function useGameControllers(players: { move: (direction: -1 | 1) => void; drop: () => void }[], active: boolean, secondPlayer: boolean) {
   const latest = useRef({ players, active, secondPlayer });
   latest.current = { players, active, secondPlayer };
-  const [connected, setConnected] = useState([false, false]);
+  const [connected, setConnected] = useState(["", ""]);
   useEffect(() => {
     if (!navigator.getGamepads) return;
     const slots: (number | null)[] = [null, null];
@@ -2267,17 +2267,19 @@ function useGameControllers(players: { move: (direction: -1 | 1) => void; drop: 
         const slot = slots.indexOf(null);
         if (slot >= 0) slots[slot] = pad.index;
       });
-      const status = slots.map(id => id !== null);
+      const status = slots.map(id => pads.find(pad => pad.index === id)?.id || "");
       if (status.join() !== lastStatus) { lastStatus = status.join(); setConnected(status); }
       slots.forEach((id, slot) => {
         const pad = pads.find(item => item.index === id);
         if (!pad) return;
         const state = previous[slot];
+        const rawPS4 = pad.mapping !== "standard" && /054c|dualshock|wireless controller|ps4/i.test(pad.id);
         const axis = pad.axes[0] || 0;
-        const left = pad.buttons[14]?.pressed || axis < -.45;
-        const right = pad.buttons[15]?.pressed || axis > .45;
+        const hat = rawPS4 && pad.axes.length > 9 && Math.abs(pad.axes[9]) <= 1 ? Math.round((pad.axes[9] + 1) * 3.5) : -1;
+        const left = (!rawPS4 && pad.buttons[14]?.pressed) || (rawPS4 && [5, 6, 7].includes(hat)) || axis < -.45;
+        const right = (!rawPS4 && pad.buttons[15]?.pressed) || (rawPS4 && [1, 2, 3].includes(hat)) || axis > .45;
         const direction = left === right ? 0 : left ? -1 : 1;
-        const drop = !!(pad.buttons[0]?.pressed || pad.buttons[13]?.pressed || (pad.axes[1] || 0) > .65);
+        const drop = !!(pad.buttons[rawPS4 ? 1 : 0]?.pressed || (!rawPS4 && pad.buttons[13]?.pressed) || (rawPS4 && [3, 4, 5].includes(hat)) || (pad.axes[1] || 0) > .65);
         if (latest.current.active && (slot === 0 || latest.current.secondPlayer) && document.visibilityState === "visible") {
           if (direction && (direction !== state.direction || now >= state.nextMove)) {
             latest.current.players[slot].move(direction);
@@ -2398,7 +2400,7 @@ function GameApp({ onFlightChange, spendCredit }: { onFlightChange: (flight: { s
   if (phase === "countdown") return <LaunchCountdown onComplete={beginGame} />;
   if (phase === "splash")
     return (
-      <div style={{ width: "100vw", height: "calc(100dvh - var(--cockpit-height))", overflow: "hidden" }}>
+      <div style={{ width: "100vw", height: "calc(100dvh - var(--cockpit-height))", overflow: "hidden", position: "relative", paddingBottom: 46 }}>
         <SplashScreen
           onStart={(m) => {
             if (startingRef.current || !spendCredit(m)) return;
@@ -2418,6 +2420,9 @@ function GameApp({ onFlightChange, spendCredit }: { onFlightChange: (flight: { s
             setPhase("mission");
           }}
         />
+        <div className="controller-discovery" aria-live="polite">
+          {controllers.map((name, index) => <span key={index} title={name}>J{index + 1}: {name ? `${/054c|dualshock|wireless controller|ps4/i.test(name) ? "PS4" : "CONTROLE"} conectado` : "Pressione X no controle para conectar"}</span>)}
+        </div>
       </div>
     );
   if (phase === "result")
