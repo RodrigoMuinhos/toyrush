@@ -2244,6 +2244,58 @@ function LaunchCountdown({ onComplete }: { onComplete: () => void }) {
   </div>;
 }
 
+function useGameControllers(players: { move: (direction: -1 | 1) => void; drop: () => void }[], active: boolean, secondPlayer: boolean) {
+  const latest = useRef({ players, active, secondPlayer });
+  latest.current = { players, active, secondPlayer };
+  const [connected, setConnected] = useState([false, false]);
+  useEffect(() => {
+    if (!navigator.getGamepads) return;
+    const slots: (number | null)[] = [null, null];
+    const previous = [{ direction: 0, nextMove: 0, drop: false }, { direction: 0, nextMove: 0, drop: false }];
+    let frame = 0;
+    let lastStatus = "";
+    const poll = (now: number) => {
+      const pads = Array.from(navigator.getGamepads()).filter((pad): pad is Gamepad => !!pad?.connected);
+      slots.forEach((id, slot) => {
+        if (id !== null && !pads.some(pad => pad.index === id)) {
+          slots[slot] = null;
+          previous[slot] = { direction: 0, nextMove: 0, drop: false };
+        }
+      });
+      pads.forEach(pad => {
+        if (slots.includes(pad.index)) return;
+        const slot = slots.indexOf(null);
+        if (slot >= 0) slots[slot] = pad.index;
+      });
+      const status = slots.map(id => id !== null);
+      if (status.join() !== lastStatus) { lastStatus = status.join(); setConnected(status); }
+      slots.forEach((id, slot) => {
+        const pad = pads.find(item => item.index === id);
+        if (!pad) return;
+        const state = previous[slot];
+        const axis = pad.axes[0] || 0;
+        const left = pad.buttons[14]?.pressed || axis < -.45;
+        const right = pad.buttons[15]?.pressed || axis > .45;
+        const direction = left === right ? 0 : left ? -1 : 1;
+        const drop = !!(pad.buttons[0]?.pressed || pad.buttons[13]?.pressed || (pad.axes[1] || 0) > .65);
+        if (latest.current.active && (slot === 0 || latest.current.secondPlayer) && document.visibilityState === "visible") {
+          if (direction && (direction !== state.direction || now >= state.nextMove)) {
+            latest.current.players[slot].move(direction);
+            state.nextMove = now + (direction !== state.direction ? 260 : 150);
+          }
+          if (drop && !state.drop) latest.current.players[slot].drop();
+        }
+        state.direction = direction;
+        state.drop = drop;
+      });
+      frame = requestAnimationFrame(poll);
+    };
+    frame = requestAnimationFrame(poll);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  return connected;
+}
+
 function GameApp({ onFlightChange, spendCredit }: { onFlightChange: (flight: { score: number; combos: number; mode: string; phase: string; attacks: string }) => void; spendCredit: (mode: GameMode) => boolean }) {
   const startingRef = useRef(false);
   const [phase, setPhase] = useState<
@@ -2267,6 +2319,7 @@ function GameApp({ onFlightChange, spendCredit }: { onFlightChange: (flight: { s
   const p2Active = phase === "game" && mode !== "1p";
   const p1 = usePlayerGrid(1, phase === "game", speed, onCombo, gameKey);
   const p2 = usePlayerGrid(2, p2Active, speed, onCombo, gameKey);
+  const controllers = useGameControllers([p1, p2], phase === "game", mode !== "1p");
   const sentCombos = useRef([0, 0]);
   useEffect(() => { sentCombos.current = [0, 0]; }, [gameKey]);
   useEffect(() => {
@@ -2411,6 +2464,10 @@ function GameApp({ onFlightChange, spendCredit }: { onFlightChange: (flight: { s
         difficultyLevel={difficultyLevel}
         mode={mode}
       />
+      <div className="controller-status" aria-live="polite">
+        <span>J1 · {controllers[0] ? "CONTROLE 1 CONECTADO" : "TECLADO / TOQUE"}</span>
+        {mode !== "1p" && <span>J2 · {controllers[1] ? "CONTROLE 2 CONECTADO" : "TECLADO / TOQUE"}</span>}
+      </div>
       <div style={{ flex: 1, display: "flex", minHeight: 0 }}>
         <PlayerPanel st={p1} pNum={1} versus={mode === "1v1"} />
         {mode !== "1p" && <PlayerPanel st={p2} pNum={2} versus={mode === "1v1"} />}
