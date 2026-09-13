@@ -2769,6 +2769,13 @@ button:focus-visible {
   color: #8fffd1;
   font-size: clamp(16px, 2.5vmin, 26px);
 }
+.name-entry-winner {
+  margin: 0 0 6px;
+  color: #ffdc2f;
+  font-weight: 1000;
+  font-size: clamp(18px, 2.8vmin, 30px);
+  text-shadow: 0 3px 0 #7a5200;
+}
 .name-lock {
   display: flex;
   justify-content: center;

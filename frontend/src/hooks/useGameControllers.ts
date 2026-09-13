@@ -56,34 +56,32 @@ export function useGameControllers(
     };
 
     const poll = (now: number) => {
-      const pads = Array.from(navigator.getGamepads()).filter(
-        (p): p is Gamepad => !!p?.connected,
-      );
-      slots.forEach((id, i) => {
-        if (id !== null && !pads.some((pad) => pad.index === id)) {
-          slots[i] = null;
-          previousDirection[i] = 0;
-          previousMenuDirection[i] = 0;
-          previousConfirm[i] = false;
-          previousBack[i] = false;
-          nextMenuMove[i] = 0;
-          nextGameMove[i] = 0;
-          nextFastDrop[i] = 0;
-          nextVerticalMove[i] = 0;
-        }
-      });
-      pads.forEach((p) => {
-        if (!slots.includes(p.index)) {
-          const i = slots.indexOf(null);
-          if (i >= 0) slots[i] = p.index;
-        }
+      // Fixed seats: whichever controller has the higher Gamepad API index is
+      // always Player 1 (slot 0), independent of which one connected first
+      // or reconnected most recently. On this cabinet the right-hand USB
+      // port is the higher index — if a rewiring changes that, swap the
+      // comparison below (a.index - b.index) instead of the port itself.
+      const pads = Array.from(navigator.getGamepads())
+        .filter((p): p is Gamepad => !!p?.connected)
+        .sort((a, b) => b.index - a.index);
+      const seats: (Gamepad | null)[] = [pads[0] ?? null, pads[1] ?? null];
+      seats.forEach((p, i) => {
+        if (p?.index === slots[i]) return;
+        slots[i] = p?.index ?? null;
+        previousDirection[i] = 0;
+        previousMenuDirection[i] = 0;
+        previousConfirm[i] = false;
+        previousBack[i] = false;
+        nextMenuMove[i] = 0;
+        nextGameMove[i] = 0;
+        nextFastDrop[i] = 0;
+        nextVerticalMove[i] = 0;
       });
       setConnected((s) => {
-        const n = slots.map((id) => pads.find((p) => p.index === id)?.id || "");
+        const n = seats.map((p) => p?.id || "");
         return n.join() === s.join() ? s : n;
       });
-      slots.forEach((id, i) => {
-        const p = pads.find((x) => x.index === id);
+      seats.forEach((p, i) => {
         if (!p) return;
         const dir = readDirection(p);
         const verticalDirection = readDirection(p, true);
@@ -112,7 +110,6 @@ export function useGameControllers(
 
         if (
           menuDirection &&
-          i === 0 &&
           [
             "splash",
             "modeSelect",

@@ -126,15 +126,20 @@ export function GameApp(props: {
 
   if (phase === "mission") return <MissionDialog onComplete={beginGame} />;
   if (phase === "ranking") return <RankingScreen onBack={restart} />;
-  if (phase === "nameEntry")
+  if (phase === "nameEntry") {
+    // Same winner formula ResultScreen uses below, so both screens agree.
+    const scoreWinner =
+      mode === "1v1" && p1.score !== p2.score ? (p1.score > p2.score ? 1 : 2) : null;
     return (
       <NameEntryScreen
         mode={mode}
         score={officialScore(mode, p1.score, p2.score)}
+        winner={mode === "1v1" ? (scoreWinner ?? raceWinner) : null}
         onSaved={completeNameEntry}
         onBack={completeNameEntry}
       />
     );
+  }
   if (phase === "gameOver") return <GameOverSplash onComplete={showGameOver} />;
   if (phase === "result")
     return (

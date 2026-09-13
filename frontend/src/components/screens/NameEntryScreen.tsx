@@ -8,11 +8,13 @@ const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export function NameEntryScreen({
   mode,
   score,
+  winner,
   onSaved,
   onBack,
 }: {
   mode: GameMode;
   score: number;
+  winner: number | null;
   onSaved: () => void;
   onBack: () => void;
 }) {
@@ -111,6 +113,9 @@ export function NameEntryScreen({
           src="/NR.png"
           alt="Novo recorde"
         />
+        {winner !== null && (
+          <p className="name-entry-winner">JOGADOR {winner} VENCEU!</p>
+        )}
         <p className="name-entry-score">
           PONTUAÇÃO: {score.toLocaleString("pt-BR")}
         </p>
