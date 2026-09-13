@@ -30,6 +30,7 @@ export function usePlayerGrid(
 
   resetKey: number,
   elapsedSeconds: number,
+  onActivity?: () => void,
 ) {
   const [st, setSt] = useState<PS>(initPS);
   const [queueRevision, setQueueRevision] = useState(0);
@@ -42,8 +43,10 @@ export function usePlayerGrid(
   const dropRef = useRef<(() => void) | undefined>(undefined);
   const turboRef = useRef<(() => void) | undefined>(undefined);
   const comboRef = useRef(onCombo);
+  const activityRef = useRef(onActivity);
 
   comboRef.current = onCombo;
+  activityRef.current = onActivity;
 
   useEffect(() => {
     attacks.current = [];
@@ -330,11 +333,11 @@ export function usePlayerGrid(
         : { l: "a", r: "d", d: "s", u: "w" };
 
     const fn = (e: KeyboardEvent) => {
+      if (e.key !== keys.l && e.key !== keys.r && e.key !== keys.d && e.key !== keys.u) return;
+      activityRef.current?.();
       if (e.key === keys.l || e.key === keys.r) move(e.key === keys.l ? -1 : 1);
-      else if (e.key === keys.d || e.key === keys.u) {
-        if (reversed(currentState.current)) verticalMove(e.key === keys.d ? 1 : -1);
-        else if (e.key === keys.d) turboRef.current?.();
-      }
+      else if (reversed(currentState.current)) verticalMove(e.key === keys.d ? 1 : -1);
+      else if (e.key === keys.d) turboRef.current?.();
     };
 
     window.addEventListener("keydown", fn);

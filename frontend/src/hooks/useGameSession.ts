@@ -85,24 +85,6 @@ export function useGameSession({
     (mode === "1p" ? 0.85 : mode === "1v1" ? 1.15 : 1) *
     (1 + difficultyLevel * 0.28) *
     (mode === "1p" ? 1 + soloDifficultyLevel * 0.35 : 1);
-  const p1 = usePlayerGrid(
-    1,
-    phase === "game" && roundStarted,
-    speed,
-    onCombo,
-    gameKey,
-    elapsedSeconds,
-  );
-  const p2 = usePlayerGrid(
-    2,
-    phase === "game" && roundStarted && mode !== "1p",
-    speed,
-    onCombo,
-    gameKey,
-    elapsedSeconds,
-  );
-  const playersRef = useRef([p1, p2]);
-  playersRef.current = [p1, p2];
   const markPlayerActivity = useCallback(
     (player: number) => {
       if (player < 2) {
@@ -118,6 +100,29 @@ export function useGameSession({
     },
     [roundReady],
   );
+  const p1 = usePlayerGrid(
+    1,
+    phase === "game" && roundStarted,
+    speed,
+    onCombo,
+    gameKey,
+    elapsedSeconds,
+    // Keyboard moves the piece directly in usePlayerGrid, bypassing the
+    // gamepad-only activity tracking in useGameControllers — without this,
+    // a keyboard player is invisible to the anti-AI-takeover watchdog.
+    useCallback(() => markPlayerActivity(0), [markPlayerActivity]),
+  );
+  const p2 = usePlayerGrid(
+    2,
+    phase === "game" && roundStarted && mode !== "1p",
+    speed,
+    onCombo,
+    gameKey,
+    elapsedSeconds,
+    useCallback(() => markPlayerActivity(1), [markPlayerActivity]),
+  );
+  const playersRef = useRef([p1, p2]);
+  playersRef.current = [p1, p2];
   const beginRound = useCallback(() => {
     setRoundReady(true);
     setRoundStarted(true);

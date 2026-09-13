@@ -97,11 +97,10 @@ export function useGameControllers(
         const backing = isBackPressed(p);
         const fastDrop = isFastDropPressed(p);
         if (!fastDrop || latest.current.phase !== "game") nextFastDrop[i] = 0;
-        if (
-          (dir || verticalMovement || confirming || fastDrop) &&
-          latest.current.phase === "game"
-        )
-          latest.current.onPlayerActivity?.(i);
+        // A connected controller alone counts as "human" for this slot — the
+        // AI takeover is meant to fill an empty seat, not to shove a player
+        // aside for holding still (e.g. watching a piece fall) for a while.
+        if (latest.current.phase === "game") latest.current.onPlayerActivity?.(i);
         const menuPhase = [
           "splash",
           "ranking",
