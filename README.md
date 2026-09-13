@@ -35,3 +35,9 @@ npm run build
 ```
 
 O instalador Windows ainda está em preparação; esta versão publica o jogo web.
+
+## Arquitetura e homologação
+
+Para publicar, siga [Vercel + Railway](docs/DEPLOY.md): frontend em `frontend/`, backend em `backend/` e PostgreSQL persistente.
+
+Consulte [o mapa de módulos](docs/ARCHITECTURE.md) e [o checklist Pix](docs/PIX_CHECKLIST.md). O teste com pagamento real ainda está pendente.

@@ -1,6 +1,6 @@
 # Pix da Toy Factory
 
-Implementação local em Spring Boot 3.5 / Java 21. Não houve pagamento real nesta entrega: faltam credenciais, URL pública do webhook e validação do fluxo de pagador para totem. Nenhuma conta ou aplicação Mercado Pago foi criada ou alterada.
+Implementação local em Spring Boot 3.5 / Java 21. Não houve pagamento real nesta entrega. Há credenciais de conta de teste e um túnel HTTPS temporário; faltam credenciais de produção e validação do fluxo de pagador para totem. Nenhuma conta ou aplicação Mercado Pago foi criada ou alterada.
 
 ## Fluxo da máquina
 
@@ -54,7 +54,7 @@ Esta primeira versão atende uma máquina por instância do backend (`TOY_MACHIN
 - Uma transação com lock no saldo grava créditos e `creditsReleased` juntos. Webhooks repetidos ou concorrentes não duplicam créditos.
 - O navegador consulta status a cada 2 segundos. O backend reconcilia com o provedor a cada 15 segundos e recupera intenções sem resposta, inclusive por referência externa. A fila alterna as sessões verificadas para não bloquear cobranças recentes.
 - A sessão visível dura 180 segundos (configurável entre 120 e 300). Ao vencer, esconde o QR e tenta cancelar no provedor. A cobrança enviada ao provedor usa 30 minutos de expiração; portanto não se deve prometer que uma captura antiga do QR deixa de ser pagável exatamente quando o cronômetro termina.
-- Uma aprovação validada que chegar após expiração/cancelamento preserva os créditos comprados, uma única vez. Nunca inicia jogo automaticamente. O saldo permanece no terminal.
+- Uma aprovação recebida após a sessão expirar, ser cancelada ou rejeitada fica em PAID_LATE para conferência, sem liberar créditos automaticamente. O evento é auditado; não há estorno automático.
 - Ao reiniciar o navegador, o backend informa a cobrança ainda aberta. Uma partida autorizada e não encerrada pode ser retomada no mesmo modo sem novo débito; o tabuleiro recomeça, pois o estado da partida em andamento não é persistido.
 - Encerramentos pendentes ficam numa fila local de IDs e são enviados antes da próxima autorização. `localStorage` não concede créditos. F8 não adiciona saldo.
 - Reembolsos/contestações posteriores à liberação não têm reversão automática de créditos nesta versão; precisam de tratamento operacional. Não há painel administrativo de reembolso nesta entrega.

@@ -9,6 +9,7 @@ public final class Models {
   public static class Machine {
     @Id public String id;
     public int credits;
+    public Instant lastWebhookAt;
   }
   @Entity(name="Payment") @Table(name="payment_session")
   public static class Payment {

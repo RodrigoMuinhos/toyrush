@@ -3,5 +3,8 @@
   "installCommand": "npm ci",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/((?!.*\\.).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/gateway?route=/:path*" },
+    { "source": "/((?!api(?:/|$)|.*\\.).*)", "destination": "/index.html" }
+  ]
 }

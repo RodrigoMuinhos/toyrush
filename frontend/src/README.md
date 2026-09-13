@@ -1,7 +1,7 @@
 # Organização do jogo
 
 Consulte [SCREENS.md](./SCREENS.md) para o mapa das telas e o escopo atual:
-**Tela 1 — Início**. Componentes compartilhados exigem estilos ou variantes
+**fluxo de pagamento Pix**. Componentes compartilhados exigem estilos ou variantes
 limitados a essa tela.
 
 - `App.tsx`: reúne o painel, a sessão de jogo e o aviso de créditos.
@@ -9,7 +9,7 @@ limitados a essa tela.
 - `hooks/useGameSession.ts`: controla fases, modos, vitória e comunicação entre jogadores.
 - `hooks/usePlayerGrid.ts`: controla as peças, combinações e ataques de um jogador.
 - `hooks/useGameControllers.ts`: traduz os comandos dos controles.
-- `hooks/useCredits.ts`: consulta o saldo no backend e solicita autorização para as partidas. O pagamento Pix fica em `components/screens/CreditDialog.tsx`.
+- `payments/hooks/useCredits.ts`: consulta o saldo no backend e solicita autorização para as partidas. O pagamento Pix fica em `payments/components/PixPurchaseModal.tsx`.
 - `game/grid.ts`: operações sobre a grade de peças.
 - `game/constants.ts` e `game/types.ts`: configurações e tipos compartilhados.
 - `components/screens/`: telas de início, história, contagem, resultado e créditos.

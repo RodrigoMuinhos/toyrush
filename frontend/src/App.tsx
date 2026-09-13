@@ -1,11 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import type { Flight } from "./game/types";
 import { GameApp } from "./game/GameApp";
-import { useCredits } from "./hooks/useCredits";
+import { useCredits } from "./payments/hooks/useCredits";
+import { useSecretAdminAccess } from "./hooks/useSecretAdminAccess";
 import { CockpitHeader } from "./components/hud/CockpitHeader";
-import { CreditDialog } from "./components/screens/CreditDialog";
+import { PixPurchaseModal } from "./payments/components/PixPurchaseModal";
+import { ActivationModal } from "./payments/components/ActivationModal";
+import { AdminGear } from "./components/admin/AdminGear";
+import { AdminPanel } from "./components/admin/AdminPanel";
 export default function App() {
-  const { credits, creditPopup, closeCreditPopup, openCreditPopup, spendCredit, finishPayment, paymentError, completeGame } = useCredits();
+  const { credits, creditPopup, closeCreditPopup, openCreditPopup, spendCredit, finishPayment, paymentError, completeGame, needsActivation, activationComplete } = useCredits();
+  const adminGearRevealed = useSecretAdminAccess();
+  const [adminPanelOpen, setAdminPanelOpen] = useState(
+    () => window.location.pathname === "/adm",
+  );
 
   const [flight, setFlight] = useState<Flight>({
     score: 0,
@@ -43,8 +51,13 @@ export default function App() {
         controllerEnabled={!creditPopup}
       />
       {creditPopup && (
-        <CreditDialog credits={credits} onClose={closeCreditPopup} onPaid={finishPayment} initialError={paymentError} />
+        <PixPurchaseModal credits={credits} onClose={closeCreditPopup} onPaid={finishPayment} initialError={paymentError} />
       )}
+      {needsActivation && <ActivationModal onActivated={activationComplete} />}
+      {adminGearRevealed && !adminPanelOpen && (
+        <AdminGear onClick={() => setAdminPanelOpen(true)} />
+      )}
+      {adminPanelOpen && <AdminPanel onClose={() => setAdminPanelOpen(false)} />}
     </div>
   );
 }

@@ -34,6 +34,11 @@ public class MercadoPago {
     return client.post().uri("/v1/payments").header("X-Idempotency-Key",payment.id).body(body).retrieve().body(JsonNode.class);
   }
   public JsonNode search(String reference) { return client.get().uri(b->b.path("/v1/payments/search").queryParam("external_reference",reference).build()).retrieve().body(JsonNode.class); }
+  // Lightweight reachability check for the health panel — never throws.
+  public boolean ping() {
+    try { client.get().uri("/users/me").retrieve().toBodilessEntity(); return true; }
+    catch (Exception e) { return false; }
+  }
   public JsonNode get(String id) { return client.get().uri("/v1/payments/{id}",id).retrieve().body(JsonNode.class); }
   public JsonNode cancel(String id) { return client.put().uri("/v1/payments/{id}",id).body(Map.of("status","cancelled")).retrieve().body(JsonNode.class); }
 }

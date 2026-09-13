@@ -1,24 +1,31 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { GameMode } from "../game/types";
-import { paymentApi, PaymentError, type Balance } from "../payments/api";
+import type { GameMode } from "../../game/types";
+import { request as paymentApi, HttpError as PaymentError, isTerminalNotActivated } from "../../shared/http";
+import type { Balance } from "../types";
 
 export function useCredits() {
   const [credits, setCredits] = useState(0);
   const [creditPopup, setCreditPopup] = useState(false);
   const [paymentError, setPaymentError] = useState("");
+  const [needsActivation, setNeedsActivation] = useState(false);
   const currentGame = useRef<string | null>(null);
   const busy = useRef(false);
   const refresh = useCallback(async () => {
     const balance = await paymentApi<Balance>("/machine/balance");
     setCredits(balance.credits);
+    setNeedsActivation(false);
     return balance;
   }, []);
   useEffect(() => {
     let mounted = true;
     void refresh().then(balance => {
       if (mounted && balance.activePayment) setCreditPopup(true);
-    }).catch(() => {});
+    }).catch(error => { if (mounted && isTerminalNotActivated(error)) setNeedsActivation(true); });
     return () => { mounted = false; };
+  }, [refresh]);
+  const activationComplete = useCallback(() => {
+    setNeedsActivation(false);
+    void refresh().catch(() => {});
   }, [refresh]);
   const drainCompletions = useCallback(async () => {
     let ids: string[] = [];
@@ -39,6 +46,7 @@ export function useCredits() {
     const id = crypto.randomUUID();
     try { await authorize(mode, id); return true; }
     catch (error) {
+      if (isTerminalNotActivated(error)) { setNeedsActivation(true); return false; }
       setPaymentError(error instanceof PaymentError && error.status === 402 ? "" : (error as Error).message);
       setCreditPopup(true);
       return false;
@@ -65,5 +73,5 @@ export function useCredits() {
     await drainCompletions();
     if (currentGame.current === id) currentGame.current = null;
   }, [drainCompletions]);
-  return { credits, creditPopup, openCreditPopup, paymentError, closeCreditPopup, spendCredit, finishPayment, completeGame };
+  return { credits, creditPopup, openCreditPopup, paymentError, closeCreditPopup, spendCredit, finishPayment, completeGame, needsActivation, activationComplete };
 }

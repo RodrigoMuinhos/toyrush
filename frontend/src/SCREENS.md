@@ -2,12 +2,7 @@
 
 ## Escopo definido pelo usuário
 
-Estamos trabalhando somente na **Tela 1 — Início**, conforme a imagem enviada:
-painel superior de pontos/vidas/energia, logo Toy Factory Rush, botão JOGAR,
-botão de teste da corrida e seleção de modos.
-
-Alterações visuais pedidas neste contexto devem afetar somente essa tela.
-Não alterar outras telas ou regras de jogo sem uma nova instrução do usuário.
+O escopo atual é organizar frontend/backend e concluir o ciclo Pix. O mapa abaixo documenta as telas do jogo; o modal de compra é independente das fases. Consulte [a arquitetura](../../docs/ARCHITECTURE.md) e [a homologação](../../docs/PIX_CHECKLIST.md).
 
 ## Telas
 
@@ -21,7 +16,7 @@ Não alterar outras telas ou regras de jogo sem uma nova instrução do usuário
 | 6 | Corrida das naves | `race` | `components/race/RocketRace.tsx` |
 | 7 | Resultado | `result` | `components/screens/ResultScreen.tsx` |
 
-O aviso de créditos (`components/screens/CreditDialog.tsx`) é um modal,
+O aviso de créditos (`payments/components/PixPurchaseModal.tsx`) é um modal,
 controlado por `App.tsx`, não uma fase da partida.
 
 ## Partes da Tela 1

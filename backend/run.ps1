@@ -12,5 +12,5 @@ $jar = Join-Path $PSScriptRoot 'target/payments-1.0.0.jar'
 if (-not (Test-Path -LiteralPath $jar)) {
     throw 'Execute mvn package na pasta backend antes de iniciar.'
 }
-& java -jar $jar
+& java -jar $jar --debug=false
 exit $LASTEXITCODE

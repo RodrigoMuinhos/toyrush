@@ -14,7 +14,9 @@ interface Payments extends JpaRepository<Models.Payment,String> {
   Optional<Models.Payment> findByPaymentId(String id);
   Optional<Models.Payment> findByExternalReference(String reference);
   Optional<Models.Payment> findFirstByMachineIdAndClosedFalseOrderByCreatedAtDesc(String machineId);
+  List<Models.Payment> findByMachineIdAndCreatedAtBetween(String machineId, java.time.Instant from, java.time.Instant to);
 }
 interface Games extends JpaRepository<Models.Game,String> {
   Optional<Models.Game> findFirstByMachineIdAndStatusOrderByCreatedAtDesc(String machineId,String status);
+  List<Models.Game> findByMachineIdAndCreatedAtBetween(String machineId, java.time.Instant from, java.time.Instant to);
 }
