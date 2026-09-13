@@ -20,11 +20,11 @@ Importe este repositório e selecione **Root Directory: frontend**.
 Framework: Vite. Instalação: `npm ci`. Build: `npm run build`.
 Output Directory: `dist`. A configuração está em `frontend/vercel.json`.
 
-## Testes manuais
+## Créditos e Pix
 
-F8 adiciona uma ficha de teste: duas partidas solo ou uma em dupla.
-Créditos e recorde ficam no navegador, em localStorage, separados por domínio.
-O mecanismo de créditos é um protótipo local, sem integração de pagamentos.
+O saldo e o consumo de créditos agora são autorizados pelo backend Spring Boot em `backend/`. F8 não adiciona créditos. O menu tem **Comprar créditos**, com QR Pix dentro do jogo e retorno automático após aprovação.
+
+Configuração, execução do terminal, testes e pendências da integração real estão em [backend/README.md](backend/README.md). A implantação estática na Vercel, sozinha, não fornece o backend nem a autenticação local da máquina.
 
 ## Validação
 

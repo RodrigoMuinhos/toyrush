@@ -1,0 +1,257 @@
+.welcome-screen.welcome-screen {
+  grid-template-rows: minmax(0, 48fr) auto minmax(0, 30fr);
+  align-content: start;
+  align-items: start;
+  gap: clamp(12px, 2vh, 24px);
+  padding-top: clamp(10px, 1.5vh, 20px);
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.welcome-info-bar {
+  position: relative;
+  z-index: 4;
+  width: min(94vw, 980px);
+  min-height: 34px;
+  margin: clamp(8px, 1.4vh, 16px) auto 0;
+  padding: 7px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 14px;
+  border: 1px solid #6eeaffaa;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #082e58cc, #061932bb);
+  box-shadow:
+    inset 0 1px 0 #c0f6ff55,
+    0 0 14px #13cfff55;
+  color: #b8f3ff;
+  font:
+    700 clamp(9px, 1vw, 14px) Fredoka,
+    sans-serif;
+  letter-spacing: 0.04em;
+  text-align: center;
+  backdrop-filter: blur(8px) saturate(1.2);
+  -webkit-backdrop-filter: blur(8px) saturate(1.2);
+}
+
+.welcome-info-bar span {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.welcome-info-bar span + span {
+  border-left: 1px solid #65ddff42;
+}
+
+.welcome-info-bar b {
+  color: #ffe16a;
+  text-shadow: 0 0 8px #ffc92899;
+}
+
+.welcome-screen.welcome-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 42%, transparent 0 28%, #02091c18 78%),
+    linear-gradient(180deg, #02091c22 0%, transparent 35%, #02091c66 100%) !important;
+}
+.welcome-screen .welcome-brand {
+  align-self: start;
+  height: 100%;
+  width: min(850px, 94vw);
+}
+.welcome-screen .welcome-brand h1 {
+  height: 100%;
+}
+.welcome-screen .welcome-brand .welcome-logo {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: contain;
+  object-position: center top;
+  transform: translateY(-15dvh);
+}
+.welcome-screen .welcome-modes {
+  align-self: start;
+  margin-top: clamp(8px, 2vh, 24px);
+}
+.welcome-screen .welcome-actions {
+  align-self: start;
+  background: transparent;
+}
+.welcome-secondary-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: transparent;
+}
+.welcome-screen .welcome-play {
+  width: min(540px, 68vw);
+  min-height: clamp(68px, 11.5vh, 148px);
+  font-size: clamp(32px, 5.8vmin, 78px);
+}
+.welcome-screen .welcome-ranking {
+  min-height: 64px;
+  padding: 12px 40px;
+  font-size: clamp(18px, 2.5vmin, 28px);
+}
+@keyframes welcome-ship-drift {
+  from {
+    transform: translateY(2px) rotate(-4deg);
+  }
+  to {
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .welcome-banner-ship,
+  .welcome-banner-guest {
+    animation: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .welcome-info-bar {
+    width: calc(100% - 20px);
+    gap: 4px;
+    padding: 6px 4px;
+    font-size: 8px;
+  }
+}
+
+/* Only the opening screen uses this artwork and its height reservation. */
+:root:has(.welcome-cockpit) {
+  --cockpit-height: calc(100vw / 6.3);
+}
+.welcome-cockpit {
+  height: var(--cockpit-height);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #061b3d88, #03142a66);
+  color: #dbfbff;
+  font-family: Fredoka, sans-serif;
+  border-top: 1px solid #73eaff;
+  border-bottom: 2px solid #20d7ff;
+  box-shadow:
+    0 0 0 1px #0b5d9e,
+    0 0 16px #18cfff99,
+    0 8px 28px #02091caa;
+  backdrop-filter: blur(9px) saturate(1.25);
+  -webkit-backdrop-filter: blur(9px) saturate(1.25);
+}
+
+.welcome-cockpit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      #051733aa 0%,
+      transparent 16%,
+      transparent 84%,
+      #051733aa 100%
+    ),
+    linear-gradient(180deg, #64eaff16 0%, transparent 35%, #02091c77 100%);
+  box-shadow:
+    inset 0 1px 0 #baf5ff66,
+    inset 0 -10px 22px #01081788;
+}
+
+.welcome-cockpit::after {
+  content: "";
+  position: absolute;
+  inset: 5px 1.2%;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid #64eaff66;
+  border-radius: 12px;
+  box-shadow:
+    inset 0 0 18px #26cfff2e,
+    0 0 12px #1ad8ff66;
+}
+
+.welcome-header-art {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  left: 0;
+  top: -7.8vw;
+  pointer-events: none;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+  filter: saturate(1.1) drop-shadow(0 0 8px #13cfff66);
+}
+.welcome-cockpit > strong {
+  position: absolute;
+  z-index: 4;
+  text-align: center;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px #16cfff;
+}
+.welcome-art-score {
+  left: 16.3%;
+  top: 52%;
+  width: 15.5%;
+  font-size: 3vw;
+}
+.welcome-art-player {
+  left: 51.9%;
+  width: 5.7%;
+  font-size: 1.7vw;
+}
+.welcome-art-p1 {
+  top: 54%;
+}
+.welcome-art-p2 {
+  top: 70.4%;
+}
+.welcome-art-energy {
+  position: absolute;
+  z-index: 4;
+  left: 73.45%;
+  top: 58.4%;
+  width: 11.65%;
+  height: 15.5%;
+  background: #03213bcc;
+  border: 1px solid #24e8c8aa;
+  border-radius: 0.5vw;
+  display: flex;
+  gap: 0.18vw;
+  padding: 0.15vw;
+  box-sizing: border-box;
+  box-shadow:
+    inset 0 0 8px #17dabb55,
+    0 0 8px #17dabb66;
+}
+.welcome-art-energy i {
+  flex: 1;
+  background: #073b5c;
+  border-radius: 0.2vw;
+}
+.welcome-art-energy i.charged {
+  background: linear-gradient(#91ffde, #16ddb7);
+  box-shadow: 0 0 5px #34f6ce;
+}
+.welcome-art-total {
+  left: 86.1%;
+  top: 59.3%;
+  width: 5.2%;
+  font-size: 1.8vw;
+  background: #032039;
+  padding: 0.4vw 0;
+  border-radius: 0.4vw;
+}

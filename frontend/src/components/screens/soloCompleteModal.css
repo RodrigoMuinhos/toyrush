@@ -1,0 +1,157 @@
+.solo-complete-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  background: #06142dcc;
+  backdrop-filter: blur(8px) saturate(1.15);
+  -webkit-backdrop-filter: blur(8px) saturate(1.15);
+  font-family: Fredoka, sans-serif;
+}
+
+.solo-complete-frame {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  border: 3px solid #fff;
+  border-radius: 28px;
+  outline: 3px solid #10214b;
+  box-shadow:
+    inset 0 0 32px #28cfff99,
+    0 0 24px #28cfff66;
+  background: #06142d;
+}
+
+.solo-complete-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center;
+  filter: drop-shadow(0 0 24px #28cfff88);
+  pointer-events: none;
+}
+
+.solo-complete-actions {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  z-index: 2;
+  display: flex;
+  width: 92%;
+  gap: 18px;
+  transform: translateX(-50%);
+}
+
+.solo-complete-actions button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  flex: 1;
+  min-height: clamp(68px, 10vh, 112px);
+  border: 4px solid #071536;
+  border-radius: 30px;
+  box-shadow:
+    0 9px 0 #071536,
+    0 14px 26px #020817aa,
+    inset 0 5px 0 #ffffffb8,
+    inset 0 -7px 0 #0003;
+  cursor: pointer;
+  font:
+    900 clamp(16px, 2.4vw, 32px) Fredoka,
+    sans-serif;
+  letter-spacing: 0.025em;
+  text-shadow: 0 3px 0 #07153699;
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.solo-complete-actions button::before {
+  content: "";
+  position: absolute;
+  inset: 5px 8px 48%;
+  z-index: 0;
+  border-radius: 22px 22px 50% 50%;
+  background: linear-gradient(180deg, #ffffffc9, #ffffff1c 70%, transparent);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.solo-complete-actions button::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  z-index: 0;
+  border: 2px solid #ffffff66;
+  border-radius: 25px;
+  pointer-events: none;
+}
+
+.solo-complete-actions button:active {
+  transform: translateY(5px);
+  filter: brightness(0.94);
+  box-shadow:
+    0 2px 0 #071536,
+    0 6px 14px #02081788,
+    inset 0 4px 0 #ffffff99,
+    inset 0 -5px 0 #0003;
+}
+
+.solo-launch-button {
+  outline: 2px solid #ffd6c2;
+  background: linear-gradient(180deg, #ff8a78 0%, #ff5360 42%, #e31c43 100%);
+  color: #fff;
+  box-shadow:
+    0 9px 0 #071536,
+    0 14px 30px #ff304866,
+    inset 0 5px 0 #fff9,
+    inset 0 -7px 0 #a40d32;
+}
+.solo-continue-button {
+  outline: 2px solid #c5f8ff;
+  background: linear-gradient(180deg, #62eaff 0%, #24baf5 42%, #0876e9 100%);
+  color: #fff;
+  box-shadow:
+    0 9px 0 #071536,
+    0 14px 30px #159ff066,
+    inset 0 5px 0 #fff9,
+    inset 0 -7px 0 #0758b8;
+}
+.solo-complete-actions button:focus-visible {
+  outline: 3px solid #ffe477;
+  outline-offset: 4px;
+}
+
+.solo-complete-actions button.is-selected {
+  outline: 4px solid #fff;
+  outline-offset: 5px;
+  filter: brightness(1.12) saturate(1.15);
+}
+
+@media (max-width: 600px) {
+  .solo-complete-frame {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+  }
+
+  .solo-complete-actions {
+    width: 94%;
+    gap: 10px;
+    bottom: 8%;
+  }
+  .solo-complete-actions button {
+    min-height: 64px;
+    border-width: 3px;
+    border-radius: 16px;
+    font-size: 15px;
+  }
+}

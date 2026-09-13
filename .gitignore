@@ -10,6 +10,8 @@ release/
 !.env.example
 *.tsbuildinfo
 *.log
+backend/target/
+backend/data/
 *.exe
 *.msi
 *.blockmap

@@ -1,0 +1,100 @@
+.ranking-screen.arcade-ranking {
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  gap: clamp(12px, 2vh, 24px);
+  min-height: 100dvh;
+  overflow-y: auto;
+  padding: clamp(16px, 3vh, 36px) 4vw;
+  background: #120a03 url("/backrank.png") center / cover no-repeat;
+}
+.arcade-ranking .ranking-panel {
+  flex-shrink: 0;
+  width: min(1450px, 100%);
+  transform: none;
+  padding: clamp(16px, 2.5vw, 38px);
+  border: 1px solid #ac791b80;
+  border-radius: 28px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: none;
+  box-shadow: 0 0 0 4px #090603, 0 0 0 5px #6c4a182e, inset 0 1px 0 #ffe8a34d, 0 20px 65px #0008;
+}
+.arcade-ranking .leaderboard-header { margin-bottom: clamp(18px, 2.8vh, 30px); }
+.arcade-ranking .leaderboard-logo {
+  display: block;
+  width: min(850px, 92%);
+  max-height: 28dvh;
+  object-fit: contain;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 18px #ffc92866);
+}
+.leaderboard-header > svg { width: 36px; height: 28px; color: #ffc928; filter: drop-shadow(0 0 8px #ffb30066); }
+.arcade-ranking .leaderboard-header h1 {
+  width: fit-content;
+  margin: 4px auto 6px;
+  font: 700 clamp(32px, 5.5vw, 82px)/1 Fredoka, sans-serif;
+  letter-spacing: 0.035em;
+  color: #ffe094;
+  background: linear-gradient(#fff8dc 10%, #ffe69c 38%, #ffb300 62%, #fff1ba 90%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 0 #6b3807) drop-shadow(0 0 16px #ffb30033);
+}
+.leaderboard-header p { margin: 10px 0 0; color: #cbb58a; font: 800 clamp(9px, 1vw, 14px) Nunito, sans-serif; letter-spacing: 0.22em; }
+.arcade-ranking .ranking-list { list-style: none; padding: 0; margin: 0; max-height: none; overflow: visible; gap: clamp(7px, 1.1vh, 12px); }
+.arcade-ranking .ranking-row {
+  --rank-accent: #b88b36;
+  position: relative;
+  grid-template-columns: clamp(48px, 8vw, 110px) minmax(0, 1fr) minmax(90px, auto) clamp(74px, 12vw, 160px);
+  gap: clamp(8px, 1.6vw, 22px);
+  min-height: clamp(54px, 7.8vh, 95px);
+  padding: 8px clamp(10px, 2vw, 30px);
+  border: 1px solid var(--rank-accent);
+  border-radius: clamp(12px, 1.5vw, 22px);
+  background: linear-gradient(110deg, #34210f, #1a1008 50%, #271909);
+  box-shadow: inset 0 1px 0 #ffe3a312, 0 4px 12px #0003;
+}
+.arcade-ranking .rank-place-1 { --rank-accent: #ffcc37; background: linear-gradient(110deg, #62400c, #2b1b08 55%, #4a2f09); animation: champion-glow 4s ease-in-out infinite; }
+.arcade-ranking .rank-place-2 { --rank-accent: #c7ced8; background: linear-gradient(110deg, #3a3732, #211b13 55%, #302c24); }
+.arcade-ranking .rank-place-3 { --rank-accent: #ce9459; background: linear-gradient(110deg, #492c19, #23170e 55%, #362314); }
+.arcade-ranking .rank-position {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 38px;
+  padding: 6px 4px;
+  color: var(--rank-accent);
+  border: 1px solid var(--rank-accent);
+  border-radius: 10px 3px 10px 3px;
+  background: linear-gradient(145deg, #ffe5ad18, #0005);
+  font-size: clamp(15px, 2vw, 27px);
+}
+.arcade-ranking .rank-position span { color: inherit; }
+.rank-position svg { width: clamp(16px, 2vw, 27px); height: 22px; }
+.arcade-ranking .rank-player { color: #fff8e9; font-size: clamp(17px, 2.4vw, 34px); letter-spacing: 0.06em; overflow-wrap: anywhere; }
+.arcade-ranking .rank-score { color: #ffe5a0; font: 800 clamp(19px, 2.8vw, 42px)/1 Nunito, sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.arcade-ranking .rank-place-1 .rank-score { color: #fff1b8; text-shadow: 0 0 14px #ffd0374d; }
+.arcade-ranking .rank-score small { font-size: 0.42em; color: #cbb88b; font-weight: 700; }
+.arcade-ranking .rank-mode { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: clamp(28px, 3.8vh, 48px); padding: 4px 8px; border: 1px solid #a48134; border-radius: 999px; background: #09060370; color: #ffd96a; font: 800 clamp(10px, 1.15vw, 17px) Nunito, sans-serif; }
+.rank-mode svg { width: 20px; height: 20px; flex-shrink: 0; }
+.arcade-ranking .rank-mode-solo { color: #ffbd7e; border-color: #b27d40; }
+.arcade-ranking .rank-mode-versus { color: #92c5ff; border-color: #527dac; background: #10223688; }
+.arcade-ranking .ranking-hint { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; width: fit-content; margin: 22px auto 0; padding: 10px 20px; border: 1px solid #a76d005e; border-radius: 999px; background: #100a04b3; color: #cfbb92; font: 800 clamp(9px, 1vw, 13px) Nunito, sans-serif; }
+.ranking-hint > span { display: inline-flex; gap: 6px; align-items: center; }
+.ranking-hint kbd { display: inline-grid; place-items: center; width: 24px; height: 24px; border: 1px solid #be984e; border-radius: 50%; background: linear-gradient(#52391c, #21160b); color: #fff0c3; font: inherit; box-shadow: 0 2px 0 #0008; }
+.arcade-ranking .ranking-back { flex-shrink: 0; transform: none; min-height: 46px; padding: 10px 30px; font-size: 15px; border-width: 1px; border-radius: 12px; color: #271706; background: linear-gradient(#ffe392, #e5ad37); box-shadow: 0 4px 0 #654112, 0 0 20px #ffc9281a; }
+.arcade-ranking .ranking-back:active { transform: translateY(3px); }
+.arcade-ranking .ranking-back:focus-visible { outline: 3px solid #fff4c7; outline-offset: 5px; }
+.arcade-ranking .ranking-empty { padding: 38px 12px; line-height: 1.8; }
+@keyframes champion-glow { 0%, 100% { box-shadow: 0 0 10px #ffb90026, inset 0 0 18px #ffb4000d; } 50% { box-shadow: 0 0 22px #ffc80045, inset 0 0 24px #ffbe001a; } }
+@media (max-width: 540px) {
+  .arcade-ranking .ranking-panel { padding: 16px 10px; }
+  .arcade-ranking .ranking-row { grid-template-columns: 40px minmax(0, 1fr) auto 58px; gap: 7px; padding: 8px; }
+  .rank-position svg, .rank-mode svg { display: none; }
+  .arcade-ranking .rank-score { font-size: clamp(16px, 4.7vw, 24px); }
+  .arcade-ranking .rank-score small { display: none; }
+  .arcade-ranking .ranking-hint { gap: 6px; padding: 9px; }
+  .ranking-hint kbd { width: 20px; height: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .arcade-ranking .rank-place-1 { animation: none; } }

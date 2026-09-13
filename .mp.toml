@@ -1,0 +1,6 @@
+[defaults]
+profile = "toy-factory-test"
+site_id = "MLB"
+
+[output]
+no_color = true

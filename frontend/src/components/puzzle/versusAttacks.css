@@ -1,0 +1,34 @@
+.attack-flight-layer { position: absolute; inset: 0; z-index: 40; pointer-events: none; overflow: hidden; }
+.versus-projectile { position: absolute; top: 30%; left: 25%; display: flex; align-items: center; flex-direction: column; color: var(--attack-color); animation: attack-travel-right 700ms ease-in both; filter: drop-shadow(0 0 14px var(--attack-color)); }
+.versus-projectile strong { font-size: clamp(38px, 7vmin, 80px); }
+.versus-projectile span { padding: 4px 10px; border: 1px solid currentColor; border-radius: 9px; background: #071531ed; font: 800 clamp(10px, 1.8vmin, 20px) Fredoka, sans-serif; white-space: nowrap; }
+.versus-projectile.from-player-2 { left: 75%; animation-name: attack-travel-left; }
+@keyframes attack-travel-right { 0%, 25% { left: 25%; transform: translate(-50%,0) scale(.8); } 60% { transform: translate(-50%,-50px) scale(1.25); } 100% { left: 75%; transform: translate(-50%,0) scale(.8); } }
+@keyframes attack-travel-left { 0%, 25% { left: 75%; transform: translate(-50%,0) scale(.8); } 60% { transform: translate(-50%,-50px) scale(1.25); } 100% { left: 25%; transform: translate(-50%,0) scale(.8); } }
+.versus-overlay { position: absolute; inset: 0; z-index: 8; pointer-events: none; color: var(--attack-color); border-radius: inherit; }
+.versus-attack-label { position: absolute; top: 12%; left: 2%; right: 2%; z-index: 4; padding: 7px; text-align: center; border: 1px solid currentColor; border-radius: 12px; background: #06102de8; font: 800 clamp(9px, 1.7vmin, 19px) Fredoka, sans-serif; box-shadow: 0 0 14px #0009; }
+.versus-attack-label small { display: block; margin-top: 3px; color: white; font-size: .75em; }
+.stage-warning .versus-attack-label { animation: attack-warning-flash 250ms ease-in-out alternate infinite; }
+.board-ice { position: absolute; inset: 0; display: flex; justify-content: space-evenly; align-items: center; background: linear-gradient(25deg,#70dcff99,#a6f4ff33); box-shadow: inset 0 0 25px #bdffff; border: 4px double #bafaff; animation: ice-wave 450ms ease-out both; font-size: clamp(24px, 6vmin, 70px); }
+.board-ice strong { color: white; text-shadow: 0 0 10px #0067bd; }
+.cell-frozen { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; border: 2px solid #b3faff; border-radius: inherit; background: repeating-linear-gradient(125deg,transparent 0 24%,#e9ffff99 25%,transparent 27%),#83e5ff55; color: #edffff; font-size: 24px; box-shadow: inset 0 0 12px #b9ffff; animation: ice-wave 450ms ease-out both; }
+.cell-locked { position: absolute; inset: 0; z-index: 6; background: repeating-linear-gradient(135deg,#ffc928aa 0 7px,#202b43dd 7px 14px); border: 2px solid #ffd950; }
+.cell-locked::after { content:"🔒"; display:grid; place-items:center; height:100%; }
+.reverse-arrows { position: absolute; top: 38%; width: 100%; text-align: center; font-size: clamp(20px,5vmin,50px); text-shadow: 0 0 12px #fd7dff; animation: reverse-turn 500ms ease-out; }
+.stage-effect .reverse-arrows { top: auto; bottom: 2%; font-size: clamp(14px,2vmin,22px); }
+.board-fog { position: absolute; inset: 30% 0 2%; overflow: hidden; opacity: .84; }
+.board-fog i { position: absolute; inset: 15% -30%; background: radial-gradient(ellipse,#e8f4ffed,#94a7c4aa 45%,transparent 70%); filter: blur(10px); animation: fog-drift 1500ms ease-in-out alternate infinite; }
+.board-fog i:nth-child(2) { top: 45%; animation-delay: -600ms; }.board-fog i:nth-child(3) { top: -10%; animation-delay: -900ms; }
+.stage-warning .board-fog { opacity: .2; }
+.stage-recovery { animation: attack-recover 400ms ease-out both; }
+.row-attack-warning { position:absolute; bottom:0; width:100%; text-align:center; background:#ff7c2077; font-size:clamp(20px,4vmin,46px); animation: base-rumble 100ms alternate infinite; }
+.shuffle-piece { animation: piece-shuffle-flight 900ms ease-in-out both; position:relative; z-index:5; }
+.shuffling-board .rising-board-track > div > div { overflow: visible !important; }
+@keyframes piece-shuffle-flight { 0% { transform: translate(0,0) rotate(0); } 20% { transform: translate(0,-6px) rotate(-12deg); } 85%,100% { transform: translate(var(--shuffle-x),var(--shuffle-y)) rotate(0); } }
+@keyframes ice-wave { from { clip-path: inset(100% 0 0); } to { clip-path: inset(0); } }
+@keyframes attack-recover { to { opacity:0; filter:blur(3px); transform:scale(1.035); } }
+@keyframes attack-warning-flash { to { filter: brightness(1.6); } }
+@keyframes reverse-turn { from { transform: rotateY(180deg); opacity:.3; } to { transform:rotateY(0); opacity:1; } }
+@keyframes fog-drift { from { transform:translate(-8%,6%); } to { transform:translate(8%,-6%); } }
+@keyframes base-rumble { from { transform:translateX(-3px); } to { transform:translateX(3px); } }
+@media(prefers-reduced-motion: reduce) { .versus-overlay *, .cell-frozen, .shuffle-piece { animation-duration:1ms!important; animation-iteration-count:1!important; } }

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180">
+  <defs>
+    <linearGradient id="gold" x1="0" x2="0" y1="0" y2="1">
+      <stop stop-color="#fff18a"/><stop offset=".45" stop-color="#ffc52f"/><stop offset="1" stop-color="#e87918"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(18 20)">
+    <path d="M34 32h42v55H34z" fill="url(#gold)" stroke="#7d3d18" stroke-width="7"/>
+    <path d="M34 42H9c0 38 20 45 42 45M76 42h25c0 38-20 45-42 45" fill="none" stroke="#ffc52f" stroke-width="13"/>
+    <path d="M42 87h26v28H42zM25 119h60" fill="none" stroke="#ffc52f" stroke-width="12" stroke-linecap="round"/>
+    <path d="M28 25h54l-8 18H36z" fill="#fff18a" stroke="#7d3d18" stroke-width="6"/>
+  </g>
+  <text x="140" y="78" fill="#ffe477" font-family="Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="5">MELHORES JOGADORES</text>
+  <text x="138" y="143" fill="white" stroke="#071536" stroke-width="4" paint-order="stroke" font-family="Arial,sans-serif" font-size="62" font-weight="900" letter-spacing="3">RANKING</text>
+</svg>

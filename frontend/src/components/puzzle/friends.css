@@ -1,0 +1,17 @@
+.garden-piece { display: inline-flex; align-items: center; justify-content: center; }
+.garden-friend { width: 100%; height: 100%; overflow: visible; transform-origin: 50% 85%; animation: friend-bob 3s ease-in-out infinite; }
+.garden-win .garden-friend { animation-delay: -.8s; }
+.garden-str .garden-friend { animation-delay: -1.6s; }
+.garden-wL .garden-friend { animation: friend-sway 3.4s ease-in-out infinite; }
+.garden-wR .garden-friend { animation-delay: -2s; }
+.friend-wings { transform-origin: 50px 55px; animation: friend-flutter .8s ease-in-out infinite alternate; }
+.friend-eyes { transform-box: fill-box; transform-origin: center; animation: friend-blink 5s infinite; }
+.mode-friends .garden-piece { width: 60px !important; height: 60px !important; }
+.mode-friends { gap: 8px; }
+@keyframes friend-bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-1px) rotate(3deg); } }
+@keyframes friend-sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes friend-flutter { from { transform: scaleX(.96); } to { transform: scaleX(1); } }
+@keyframes friend-blink { 0%,43%,47%,100% { transform: scaleY(1); } 45% { transform: scaleY(.08); } }
+@media (prefers-reduced-motion: reduce) {
+  .garden-friend, .friend-wings, .friend-eyes { animation: none; }
+}
